@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.simpleapp.MainActivity
 import com.example.simpleapp.R
 import com.example.simpleapp.adapter.PostRecyclerViewAdapter
 import com.example.simpleapp.model.Post
@@ -41,6 +42,7 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var rvPosts: RecyclerView
     private lateinit var bloodPostLayout: LinearLayout
     private lateinit var topBarLayout: LinearLayout
+    private lateinit var dashboardLayout: LinearLayout
     private lateinit var dashboardDoctorLayout: LinearLayout
     private lateinit var dashboardNurseLayout: LinearLayout
     private lateinit var dashboardUserLayout: LinearLayout
@@ -60,6 +62,7 @@ class DashboardActivity : AppCompatActivity() {
 
 
         topBarLayout = findViewById<LinearLayout>(R.id.topBarLayout)
+        dashboardLayout = findViewById(R.id.dashboardLayout)
         dashboardUserLayout = findViewById<LinearLayout>(R.id.dashboardUserLayout)
         dashboardDoctorLayout = findViewById<LinearLayout>(R.id.dashboardDoctorLayout)
         dashboardNurseLayout = findViewById<LinearLayout>(R.id.dashboardNurseLayout)
@@ -84,6 +87,14 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("userid", loggedInUser.id)
             startActivity(intent)
+        }
+
+        val btnLogout = findViewById<ImageButton>(R.id.ibLogout)
+        btnLogout.setOnClickListener {
+            clearSessionData()
+            val user = sf.getString("loggedInUser", null)
+            Log.d("MYTAG", "cleared -> $user")
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         val btnStatus = findViewById<ImageButton>(R.id.ibStatus)
@@ -169,16 +180,17 @@ class DashboardActivity : AppCompatActivity() {
             bloodPostLayout.visibility = VISIBLE
 
             topBarLayout.visibility= GONE
-            dashboardUserLayout.visibility = GONE
-            dashboardDoctorLayout.visibility = GONE
-            dashboardNurseLayout.visibility = GONE
-            dashboardAdminLayout.visibility = GONE
+//            dashboardUserLayout.visibility = GONE
+//            dashboardDoctorLayout.visibility = GONE
+//            dashboardNurseLayout.visibility = GONE
+//            dashboardAdminLayout.visibility = GONE
+            dashboardLayout.visibility = GONE
             rvPosts.visibility = GONE
 
             tvBloodPost.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
             tvBloodPost.setTextColor(ContextCompat.getColor(this, R.color.white))
 
-            updateLayouts()
+//            updateLayouts()
         }
 
         cancelPost.setOnClickListener {
@@ -223,6 +235,11 @@ class DashboardActivity : AppCompatActivity() {
         dashboardDoctorLayout.requestLayout()
         dashboardNurseLayout.requestLayout()
         dashboardAdminLayout.requestLayout()
+    }
+
+    private fun clearSessionData(){
+        editor.clear()
+        editor.commit()
     }
 
 }

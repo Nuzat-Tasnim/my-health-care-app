@@ -1,6 +1,7 @@
 package com.example.simpleapp.model
 
 import android.content.Context
+import com.example.simpleapp.R
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,8 +31,8 @@ class RetrofitInstance {
 
         fun getRetrofitInstance(context: Context): Retrofit {
             return Retrofit.Builder()
-//                .baseUrl(context.getString(R.string.BASE_URL))
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl(context.getString(R.string.BASE_URL))
+//                .baseUrl("http://10.0.2.2:3000/")
 //                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))

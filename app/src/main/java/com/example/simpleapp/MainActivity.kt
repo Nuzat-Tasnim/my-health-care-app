@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sf: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var retrofit: AuthService
-    private lateinit var retrofitAdmin: AdminService
-    private lateinit var retrofitDoctor: DoctorService
-    private lateinit var retrofitNurse: NurseService
-    private lateinit var retrofitPatient: PatientService
+//    private lateinit var retrofitAdmin: AdminService
+//    private lateinit var retrofitDoctor: DoctorService
+//    private lateinit var retrofitNurse: NurseService
+//    private lateinit var retrofitPatient: PatientService
     private lateinit var loggedInUser: User
     private lateinit var token: String
     private lateinit var tokenKey: String
@@ -78,6 +78,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
         }
+
+        loggedInUser = User("", "", 0, "", "", "", "", "", "", "", "", "", "", listOf(""))
 
         val tvRegister = findViewById<TextView>(R.id.tvRegister)
         val tvLogin = findViewById<TextView>(R.id.tvLogin)
@@ -134,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                     selectedDay = dayOfMonth
                     selectedMonth = monthOfYear
                     selectedYear = year
-                    val dateString = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
+                    val dateString = ((monthOfYear + 1).toString() + "-" + dayOfMonth.toString() + "-" + year.toString())
                     etBirthdate.setText(dateString)
                 },
                 // passing year, month and day for the selected date in our date picker.
@@ -195,7 +197,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else{
                     CoroutineScope(Dispatchers.IO).launch {
-                        register(name, gender, email, pass1)
+                        register(name, birthdate ,gender, email, pass1)
                     }
                 }
             }
@@ -232,8 +234,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun register(name: String, gender: String, email: String, password: String){
-        var retroData = retrofit.register(RegisterRequestBody(name, selectedDay, selectedMonth, selectedYear,  gender, email, password) )
+    private fun register(name: String, birthdate: String, gender: String, email: String, password: String){
+//        var retroData = retrofit.register(RegisterRequestBody(name, selectedDay, selectedMonth, selectedYear,  gender, email, password) )
+        var retroData = retrofit.register(RegisterRequestBody(name, birthdate,  gender, email, password) )
         Log.d("MYTAG", "registering")
 
         retroData.enqueue(object: Callback<User> {

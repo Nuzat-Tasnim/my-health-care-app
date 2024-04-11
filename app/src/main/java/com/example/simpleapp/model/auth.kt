@@ -12,12 +12,15 @@ data class LoginRequestBody(
 data class RegisterRequestBody(
     @SerializedName("name")
     val name: String,
-    @SerializedName("year")
-    val year: Int,
-    @SerializedName("month")
-    val Month: Int,
-    @SerializedName("day")
-    val day: Int,
+//    @SerializedName("year")
+//    val year: Int,
+//    @SerializedName("month")
+//    val Month: Int,
+//    @SerializedName("day")
+//    val day: Int,
+
+    @SerializedName("birthdate")
+    val birthdate: String,
     @SerializedName("gender")
     val gender: String,
     @SerializedName("email")
